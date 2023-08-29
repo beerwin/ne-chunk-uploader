@@ -1,0 +1,22 @@
+{
+  "name": "ne-chunk-uploader",
+  "version": "0.0.1",
+  "description": "Yet another chunk uploader library",
+  "type": "module",
+  "main": "src/chunk-uploader.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detect-open-handles",
+    "lint": "npx eslint src/** test/**"
+  },
+  "author": "Nagy Ervin",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.0.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "jest": "^29.6.4",
+    "jest-fetch-mock": "^3.0.3"
+  }
+}
