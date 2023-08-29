@@ -2,12 +2,16 @@ import Chunk from './chunk'
 import defaultOptions from './default-options'
 import { INVALID_UPLOAD_URL, NO_FILE_SELECTED } from './errors'
 import HasEvents from './has-events'
+import { NoRetryStrategy } from './retries'
 import FetchDriver from './transfer-drivers/fetch-driver'
 
 export default class NEChunkUploader extends HasEvents {
   constructor (options) {
     super()
     this.options = { ...defaultOptions, ...options }
+    if (!this.options.retryStrategy) {
+      this.options.retryStrategy = new NoRetryStrategy()
+    }
     this.aborted = false
     this.chunksUploaded = 0
 
@@ -57,10 +61,12 @@ export default class NEChunkUploader extends HasEvents {
       id: this._id(),
       index,
       uploadURL: this.options.uploadChunkURL,
-      driver: this.options.driver
+      driver: this.options.driver,
+      retryStrategy: this.options.retryStrategy
     })
     chunk.addEventListener('error', this._chunkError.bind(this))
     chunk.addEventListener('ready', this._chunkComplete.bind(this))
+    chunk.addEventListener('retry', this._chunkRetry.bind(this))
     await chunk.upload()
   }
 
@@ -89,6 +95,15 @@ export default class NEChunkUploader extends HasEvents {
     this.trigger('error', {
       type: 'chunkError',
       error: data
+    })
+  }
+
+  _chunkRetry (data) {
+    this.trigger('chunkRetry', {
+      totalChunks: this.chunkCount,
+      chunkSize: data.chunkSize,
+      chunksUploaded: this.chunksUploaded,
+      percentage: (this.chunksUploaded / this.chunkCount) * 100
     })
   }
 

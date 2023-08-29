@@ -44,7 +44,28 @@ export default class Chunk extends HasEvents {
   }
 
   async upload () {
-    await this._doUpload()
+    const retryCurve = [this.options.retryStrategy.retryInterval, ...this.options.retryStrategy.getCurve()]
+    let result
+    for (let i = 0; i < retryCurve.length; i++) {
+      if (i > 0) {
+        this.trigger('retry', result)
+      }
+
+      result = await this._doUpload()
+
+      if (result.status >= 200 && result.status < 400) {
+        this.trigger('ready', result)
+        return
+      } else {
+        if (result.status >= 500) {
+          this.trigger('error', result)
+          return
+        } else {
+          await this.options.retryStrategy.wait(retryCurve[i])
+        }
+      }
+    }
+    this.trigger('error', result)
   }
 
   async _doUpload () {
@@ -53,7 +74,7 @@ export default class Chunk extends HasEvents {
       'Content-Range': 'bytes ' + this.options.start + '-' + (this.options.start + this.options.size) + '/' + this.options.totalSize
     })
 
-    const result = await this.options.driver.upload(this.options.uploadURL, {
+    return await this.options.driver.upload(this.options.uploadURL, {
       chunkStart: this.options.start,
       chunkEnd: this.options.chunkStart + this.options.chunkSize,
       chunkSize: this.options.size,
@@ -62,11 +83,5 @@ export default class Chunk extends HasEvents {
       index: this.options.index,
       body: this.options.body
     })
-
-    if (result.status >= 200 && result.status < 400) {
-      this.trigger('ready', result)
-    } else {
-      this.trigger('error', result)
-    }
   }
 }

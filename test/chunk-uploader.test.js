@@ -7,6 +7,7 @@ import { Blob } from 'buffer'
 import fetchMock from 'jest-fetch-mock'
 import { beforeEach } from 'node:test'
 import { requestFail, requestRedirected, requestStatusError, requestSuccess } from './mock/fetch'
+import { LinearBackOffRetryStrategy } from '../src/retries'
 
 fetchMock.enableMocks()
 
@@ -114,16 +115,18 @@ describe('ChunkUploader', () => {
     expect(error).toBe(false)
   })
 
-  test('should stop on non-Http error', async () => {
+  test('should retry on non-Http error', async () => {
     fetch.mockReject(requestFail)
     const chunkProgresses = []
     let aborted = false
     let error = true
+    let retries = 0
     const file = new Blob([fs.readFileSync('test/hello.txt')])
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
-      chunkSize: 500000
+      chunkSize: 500000,
+      retryStrategy: new LinearBackOffRetryStrategy(2, 1000)
     })
 
     chunkUploader.addEventListener('progress', (data) => {
@@ -138,11 +141,16 @@ describe('ChunkUploader', () => {
       error = data
     })
 
+    chunkUploader.addEventListener('chunkRetry', (data) => {
+      retries += 1
+    })
+
     await chunkUploader.upload()
     expect(chunkProgresses.length).not.toBe(20)
     expect(aborted).toBe(true)
     expect(error).not.toBe(true)
     expect(error.error.status).toBe(-1)
+    expect(retries).toBe(2)
   })
 
   test('should load basic driver', () => {
