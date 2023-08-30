@@ -7,7 +7,7 @@ import { Blob } from 'buffer'
 import fetchMock from 'jest-fetch-mock'
 import { beforeEach } from 'node:test'
 import { requestFail, requestRedirected, requestStatusError, requestSuccess } from './mock/fetch'
-import { LinearBackOffRetryStrategy } from '../src/retries'
+import { LinearBackOffRetryStrategy } from '../src/retry/retries'
 
 fetchMock.enableMocks()
 

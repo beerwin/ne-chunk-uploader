@@ -1,6 +1,6 @@
 import { jest, test, describe, expect } from '@jest/globals'
 
-import HasEvents from '../src/has-events'
+import HasEvents from '../src/common/has-events'
 
 describe('has-events', () => {
   test('addEventListener', () => {

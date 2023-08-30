@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-import { BaseRetryStrategy, ExponentialBackOffRetryStrategy, LinearBackOffRetryStrategy, NoRetryStrategy } from '../src/retries'
+import { BaseRetryStrategy, ExponentialBackOffRetryStrategy, LinearBackOffRetryStrategy, NoRetryStrategy } from '../src/retry/retries'
 
 describe('BaseRetryStrategy', () => {
   test('should be one 1000', () => {
