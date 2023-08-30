@@ -4,6 +4,7 @@ import { INVALID_UPLOAD_URL, NO_FILE_SELECTED } from './config/errors'
 import HasEvents from './common/has-events'
 import { NoRetryStrategy } from './retry/retries'
 import FetchDriver from './transfer-drivers/fetch-driver'
+import { v4 } from 'uuid'
 
 export default class NEChunkUploader extends HasEvents {
   constructor (options) {
@@ -85,7 +86,7 @@ export default class NEChunkUploader extends HasEvents {
   }
 
   _id () {
-    return 'upload_id_'
+    return 'upload_id_' + v4()
   }
 
   _aborted () {
