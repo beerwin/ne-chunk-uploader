@@ -24,8 +24,7 @@ export default class FetchDriver {
           nativeEvent: null,
           nativeResponse: response,
           status: response.status,
-          statusText: response.statusText,
-          ...data
+          statusText: response.statusText
         }
       } else {
         return {

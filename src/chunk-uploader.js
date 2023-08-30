@@ -23,7 +23,6 @@ export default class NEChunkUploader extends HasEvents {
       throw new Error(NO_FILE_SELECTED)
     }
 
-    // start with a basic XHR driver
     // getDriver should be used to configure it further
     if (!this.options.driver) {
       this.options.driver = new FetchDriver()
@@ -64,7 +63,8 @@ export default class NEChunkUploader extends HasEvents {
       driver: this.options.driver,
       retryStrategy: this.options.retryStrategy,
       additionalHeaders: this.options.additionalHeaders,
-      additionalFields: this.options.additionalFields
+      additionalFields: this.options.additionalFields,
+      contentType: this.options.contentType
     })
     chunk.addEventListener('error', this._chunkError.bind(this))
     chunk.addEventListener('ready', this._chunkComplete.bind(this))

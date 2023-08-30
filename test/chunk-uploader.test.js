@@ -198,4 +198,30 @@ describe('ChunkUploader', () => {
     expect(aborted).toBe(true)
     expect(error).toBe(true)
   })
+
+  test('should run with appplication/json', async () => {
+    fetch.mockResponse(requestSuccess)
+    const chunkProgresses = []
+    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const chunkUploader = new NEChunkUploader({
+      uploadChunkURL: 'http://localhost',
+      file,
+      chunkSize: 500000,
+      contentType: 'application/json'
+    })
+
+    chunkUploader.addEventListener('progress', (data) => {
+      chunkProgresses.push(data)
+    })
+
+    await chunkUploader.upload()
+    expect(chunkProgresses.length).toBe(20)
+    const totalChunkSize = chunkProgresses.reduce((a, c) => {
+      if (c.chunksUploaded === 0) {
+        return a
+      }
+      return a + c.chunkSize
+    }, 0)
+    expect(totalChunkSize).toBe(file.size)
+  })
 })

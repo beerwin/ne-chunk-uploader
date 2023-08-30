@@ -21,7 +21,7 @@ const chunkUploader = new NEChunkUploader(const defaultOptions = {
   uploadChunkURL: 'http://localhost',
   additionalFields: {}, 
   additionalHeaders: {},
-  contentType: 'raw', // TBD
+  contentType: 'multipart/form-data',
   file: File|Blob
   chunkSize: 5 * 1024 * 1024,
   retryStrategy: new NoRetryStrategy(),
@@ -38,6 +38,10 @@ chunkUploadHandler.upload();
 ```
 
 `retryStrategy` and `driver` are not mandatory. When not specified, `NoRetryStrategy` and a very basicly configured `FetchDriver` will be used.
+
+### contentType
+
+2 content types are supported: `multipart/form-data` and `application/json`. Default is `multipart/form-data`
 
 ### Events
 
@@ -110,7 +114,6 @@ Drivers shouldn't have any other logic, they just should provide the interface b
           nativeResponse: response, // 2xx, 3xx statuses
           status: response.status,
           statusText: response.statusText,
-          ...data // data received through parameter
         }
    ```
    - for error status codes (e.g. 4xx, 5xx), it should return 

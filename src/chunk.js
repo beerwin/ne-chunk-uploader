@@ -1,3 +1,4 @@
+import getDataBuilder from './data-builder/data-builder-factory'
 import HasEvents from './has-events'
 
 export default class Chunk extends HasEvents {
@@ -37,10 +38,6 @@ export default class Chunk extends HasEvents {
     }
 
     this.options = options
-
-    if (!this.options.contentType) {
-      this.options.contentType = 'multipart/form-data'
-    }
   }
 
   async upload () {
@@ -75,7 +72,7 @@ export default class Chunk extends HasEvents {
       'Content-Range': 'bytes ' + this.options.start + '-' + (this.options.start + this.options.size) + '/' + this.options.totalSize
     })
 
-    return await this.options.driver.upload(this.options.uploadURL, {
+    const data = {
       chunkStart: this.options.start,
       chunkEnd: this.options.chunkStart + this.options.chunkSize,
       chunkSize: this.options.size,
@@ -84,6 +81,10 @@ export default class Chunk extends HasEvents {
       index: this.options.index,
       body: this.options.body,
       ...this.options.additionalFields
-    })
+    }
+
+    const dataBuilder = getDataBuilder(data, this.options.contentType)
+
+    return { ...data, ...await this.options.driver.upload(this.options.uploadURL, dataBuilder.build()) }
   }
 }
