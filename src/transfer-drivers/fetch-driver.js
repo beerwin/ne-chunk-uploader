@@ -8,6 +8,18 @@ export default class FetchDriver {
   }
 
   async upload (uploadURL, data) {
+    let result = await this._doUpload(uploadURL, data)
+    if (result.status === 401 && typeof this.onAuthorizationRequest === 'function') {
+      this.setHeaders({
+        Authorization: await this.onAuthorizationRequest()
+      })
+      result = this._doUpload(uploadURL, data)
+    }
+
+    return result
+  }
+
+  async _doUpload (uploadURL, data) {
     try {
       const response = await fetch(uploadURL, {
         method: 'POST',
