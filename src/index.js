@@ -4,7 +4,7 @@ import {
   NoRetryStrategy,
   LinearBackOffRetryStrategy,
   ExponentialBackOffRetryStrategy
-} from './retries'
+} from './retry/retries'
 import FetchDriver from './transfer-drivers/fetch-driver'
 
 export {

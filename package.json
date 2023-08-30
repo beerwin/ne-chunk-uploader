@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Yet another chunk uploader library",
   "type": "module",
-  "main": "src/chunk-uploader.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detect-open-handles",
     "lint": "npx eslint src/** test/**"
