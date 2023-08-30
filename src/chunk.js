@@ -70,6 +70,7 @@ export default class Chunk extends HasEvents {
 
   async _doUpload () {
     this.options.driver.setHeaders({
+      ...this.options.additionalHeaders,
       'Content-Type': this.options.contentType,
       'Content-Range': 'bytes ' + this.options.start + '-' + (this.options.start + this.options.size) + '/' + this.options.totalSize
     })
@@ -81,7 +82,8 @@ export default class Chunk extends HasEvents {
       totalsize: this.options.totalSize,
       id: this.options.id,
       index: this.options.index,
-      body: this.options.body
+      body: this.options.body,
+      ...this.options.additionalFields
     })
   }
 }
