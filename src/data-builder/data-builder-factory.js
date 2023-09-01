@@ -1,5 +1,5 @@
-import FormDataBuilder from './form-data'
-import JsonDataBuilder from './json-data'
+import FormDataBuilder from './form-data.js'
+import JsonDataBuilder from './json-data.js'
 
 export default function getDataBuilder (data, contentType) {
   switch (contentType) {

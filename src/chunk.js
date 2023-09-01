@@ -1,5 +1,5 @@
-import getDataBuilder from './data-builder/data-builder-factory'
-import HasEvents from './common/has-events'
+import getDataBuilder from './data-builder/data-builder-factory.js'
+import HasEvents from './common/has-events.js'
 
 export default class Chunk extends HasEvents {
   constructor (options) {

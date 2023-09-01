@@ -1,4 +1,4 @@
-import BaseDataBuilder from './base-data'
+import BaseDataBuilder from './base-data.js'
 
 export default class FormDataBuilder extends BaseDataBuilder {
   build () {

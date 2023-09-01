@@ -1,17 +1,8 @@
-import NEChunkUploader from './chunk-uploader'
-import {
+export { default as NEChunkUploader } from './chunk-uploader.js'
+export {
   BaseRetryStrategy,
   NoRetryStrategy,
   LinearBackOffRetryStrategy,
   ExponentialBackOffRetryStrategy
-} from './retry/retries'
-import FetchDriver from './transfer-drivers/fetch-driver'
-
-export {
-  NEChunkUploader,
-  BaseRetryStrategy,
-  NoRetryStrategy,
-  LinearBackOffRetryStrategy,
-  ExponentialBackOffRetryStrategy,
-  FetchDriver
-}
+} from './retry/retries.js'
+export { default as FetchDriver } from './transfer-drivers/fetch-driver.js'

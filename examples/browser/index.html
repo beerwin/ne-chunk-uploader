@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../dist/ne-chunk-uploader.bundle.js"></script>
+</head>
+<body>
+    <input type="file" id="fileSelector" />
+    <script defer>
+        function doUpload() {
+            const {NEChunkUploader, FetchDriver, NoRetryStrategy, ExponentialBackOffRetryStrategy} = window.NEChunkUploaderLib;
+            const uploader = new NEChunkUploader({
+                uploadChunkURL: 'http://localhost',
+                file: document.querySelector('#fileSelector').files[0]
+            });
+            console.log(uploader);
+            console.log(uploader.getDriver());
+            console.log((new ExponentialBackOffRetryStrategy(9, 1000).getCurve()));
+        }
+
+        document.querySelector('#fileSelector').addEventListener('change', doUpload)
+    </script>
+</body>
+</html>

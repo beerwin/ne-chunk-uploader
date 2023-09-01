@@ -1,9 +1,9 @@
-import Chunk from './chunk'
-import defaultOptions from './config/default-options'
-import { INVALID_UPLOAD_URL, NO_FILE_SELECTED } from './config/errors'
-import HasEvents from './common/has-events'
-import { NoRetryStrategy } from './retry/retries'
-import FetchDriver from './transfer-drivers/fetch-driver'
+import Chunk from './chunk.js'
+import defaultOptions from './config/default-options.js'
+import { INVALID_UPLOAD_URL, NO_FILE_SELECTED } from './config/errors.js'
+import HasEvents from './common/has-events.js'
+import { NoRetryStrategy } from './retry/retries.js'
+import FetchDriver from './transfer-drivers/fetch-driver.js'
 import { v4 } from 'uuid'
 
 export default class NEChunkUploader extends HasEvents {
