@@ -1,7 +1,11 @@
 {
   "name": "ne-chunk-uploader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Yet another chunk uploader library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beerwin/ne-chunk-uploader.git"
+  },
   "type": "module",
   "main": "src/index.js",
   "scripts": {
