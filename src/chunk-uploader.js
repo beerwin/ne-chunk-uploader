@@ -13,8 +13,8 @@ export default class NEChunkUploader extends HasEvents {
     if (!this.options.retryStrategy) {
       this.options.retryStrategy = new NoRetryStrategy()
     }
-    this.aborted = false
-    this.chunksUploaded = 0
+
+    this._reset()
 
     if (!this.options.uploadChunkURL) {
       throw new Error(INVALID_UPLOAD_URL)
@@ -31,6 +31,10 @@ export default class NEChunkUploader extends HasEvents {
   }
 
   async upload () {
+    this._reset()
+    if (!this.options.fileName) {
+      this.options.fileName = this._id()
+    }
     this._setupChunks()
     for (let x = 0; x < this.chunkCount; x++) {
       if (this.aborted) {
@@ -63,6 +67,8 @@ export default class NEChunkUploader extends HasEvents {
       uploadURL: this.options.uploadChunkURL,
       driver: this.options.driver,
       retryStrategy: this.options.retryStrategy,
+      fileName: this.fileName,
+      fileType: this.fileType,
       additionalHeaders: this.options.additionalHeaders,
       additionalFields: this.options.additionalFields,
       contentType: this.options.contentType
@@ -86,7 +92,16 @@ export default class NEChunkUploader extends HasEvents {
   }
 
   _id () {
-    return 'upload_id_' + v4()
+    if (!this.internalId) {
+      this.internalId = 'upload_id_' + v4()
+    }
+    return this.internalId
+  }
+
+  _reset () {
+    this.chunksUploaded = 0
+    this.aborted = false
+    this.internalId = null
   }
 
   _aborted () {

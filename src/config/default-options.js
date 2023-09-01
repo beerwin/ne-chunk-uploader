@@ -1,5 +1,7 @@
 const defaultOptions = {
   uploadChunkURL: '',
+  fileName: '',
+  fileType: 'application/octet-stream',
   additionalFields: {},
   additionalHeaders: {},
   contentType: 'multipart/form-data',

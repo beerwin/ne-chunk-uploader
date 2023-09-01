@@ -77,6 +77,8 @@ export default class Chunk extends HasEvents {
       chunkEnd: this.options.chunkStart + this.options.chunkSize,
       chunkSize: this.options.size,
       totalsize: this.options.totalSize,
+      fileName: this.fileName,
+      fileType: this.fileType,
       id: this.options.id,
       index: this.options.index,
       body: this.options.body,
