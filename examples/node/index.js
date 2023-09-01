@@ -1,4 +1,5 @@
-import { NEChunkUploader } from '../../src/index.js'
+import { NEChunkUploader } from '../../src/index.js' // this to work with the current source code
+// import { NEChunkUploader } from 'ne-chunk-uploader'
 
 const uploader = new NEChunkUploader({
   uploadChunkURL: 'http://localhost',

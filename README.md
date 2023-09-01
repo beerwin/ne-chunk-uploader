@@ -8,7 +8,20 @@ This library doesn't provide a UI. Just a handful of events to allow you to upda
 
 ## Usage
 
-### Installation and basic usage
+### Web browser
+```html
+<script src="ne-chunk-uploader.bundle.js"></script>
+<script>
+const { NEChunkUploader, NoRetryStrategy, FetchDriver } = window.NEChunkUploaderLib;
+
+// alternatively const NEChunkUploader = NEChunkUploaderLib.NEChunkUploader;
+// ...
+</script>
+```
+
+### Node JS
+
+This library works only with MJS modules. CommonJS is not supported at this time.
 
 ```sh
 npm install --save ne-chunk-uploader
