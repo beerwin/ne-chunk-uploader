@@ -6,5 +6,6 @@ export default class FormDataBuilder extends BaseDataBuilder {
     for (const name in this.data) {
       fd.append(name, this.data[name])
     }
+    return fd
   }
 }

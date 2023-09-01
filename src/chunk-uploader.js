@@ -67,8 +67,8 @@ export default class NEChunkUploader extends HasEvents {
       uploadURL: this.options.uploadChunkURL,
       driver: this.options.driver,
       retryStrategy: this.options.retryStrategy,
-      fileName: this.fileName,
-      fileType: this.fileType,
+      fileName: this.options.fileName,
+      fileType: this.options.fileType,
       additionalHeaders: this.options.additionalHeaders,
       additionalFields: this.options.additionalFields,
       contentType: this.options.contentType
