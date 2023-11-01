@@ -71,7 +71,8 @@ export default class NEChunkUploader extends HasEvents {
       fileType: this.options.fileType,
       additionalHeaders: this.options.additionalHeaders,
       additionalFields: this.options.additionalFields,
-      contentType: this.options.contentType
+      contentType: this.options.contentType,
+      chunkCount: this.chunkCount
     })
     chunk.addEventListener('error', this._chunkError.bind(this))
     chunk.addEventListener('ready', this._chunkComplete.bind(this))

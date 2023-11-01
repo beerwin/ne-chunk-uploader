@@ -52,6 +52,22 @@ chunkUploadHandler.upload();
 
 `retryStrategy` and `driver` are not mandatory. When not specified, `NoRetryStrategy` and a very basicly configured `FetchDriver` will be used.
 
+The server will receive the following data:
+
+```json
+{
+  chunkStart: '5242880', // start offset for the chunk
+  chunkEnd: '9340371', // end offset for the chunk
+  chunkSize: '4097491', // actual size of the chunk (bytes)
+  chunkCount: 2, // total number of chunks
+  totalsize: '9340371', // total file size
+  fileName: 'upload_id_9a9ef69e-c593-4574-9738-dc99dc3a35bb', // file name
+  fileType: 'application/octet-stream', // mimetype
+  id: 'upload_id_9a9ef69e-c593-4574-9738-dc99dc3a35bb', // upload id, used to identify which chunks belong to a given updload
+  index: '1' // the order of the chunk in the sequence (used to support parallel chunk uploading in the future)
+}
+```
+
 ## Options
 
 ### fileName:
@@ -88,8 +104,8 @@ RetryStrategy tells the uploader how many times a chunk should be retried before
 #### There are 4 retry strategies available:
 
 - `NoRetryStrategy`: will provide no retries
-- `BasicRetryStrategy(N, baeInterval)` repeats `N` times, waiting `BasicInterval` between retries (typically, when long waiting time is required between retries, but backing off is not required)
-- `LinearBackOffRetryStrategy(N, baseInterval)` repeats `N` times, waits `N * BasicInterval` between retries (for endpoints with less stringent throttling)
+- `BasicRetryStrategy(N, baseInterval)` repeats `N` times, waiting `baseInterval` between retries (typically, when long waiting time is required between retries, but backing off is not required)
+- `LinearBackOffRetryStrategy(N, baseInterval)` repeats `N` times, waits `N * baseInterval` between retries (for endpoints with less stringent throttling)
 - `ExponentialBackOffRetryStrategy(N, BaseInterval)` repeats `N` times, waits an increasingly long time between retries `2^N * BaseInterval` (Best to use for endpoints with heavy throttling)
 
 #### You may write new retry strategies. 
