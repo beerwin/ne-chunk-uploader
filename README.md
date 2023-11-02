@@ -54,7 +54,7 @@ chunkUploadHandler.upload();
 
 The server will receive the following data:
 
-```json
+```javascript
 {
   chunkStart: '5242880', // start offset for the chunk
   chunkEnd: '9340371', // end offset for the chunk
