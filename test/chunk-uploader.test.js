@@ -9,6 +9,8 @@ import { beforeEach } from 'node:test'
 import { requestFail, requestRedirected, requestStatusError, requestSuccess } from './mock/fetch'
 import { LinearBackOffRetryStrategy } from '../src/retry/retries'
 
+const mockData = new Blob([new ArrayBuffer(10485760)], { type: 'application/octet-stream' })
+
 fetchMock.enableMocks()
 
 beforeEach(() => {
@@ -19,7 +21,7 @@ describe('ChunkUploader', () => {
   test('should run', async () => {
     fetch.mockResponse(requestSuccess)
     const chunkProgresses = []
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -31,7 +33,7 @@ describe('ChunkUploader', () => {
     })
 
     await chunkUploader.upload()
-    expect(chunkProgresses.length).toBe(20)
+    expect(chunkProgresses.length).toBe(22)
     const totalChunkSize = chunkProgresses.reduce((a, c) => {
       if (c.chunksUploaded === 0) {
         return a
@@ -44,7 +46,7 @@ describe('ChunkUploader', () => {
   test('should run with redirected', async () => {
     fetch.mockResponse(requestRedirected)
     const chunkProgresses = []
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -56,7 +58,7 @@ describe('ChunkUploader', () => {
     })
 
     await chunkUploader.upload()
-    expect(chunkProgresses.length).toBe(20)
+    expect(chunkProgresses.length).toBe(22)
     const totalChunkSize = chunkProgresses.reduce((a, c) => {
       if (c.chunksUploaded === 0) {
         return a
@@ -67,7 +69,7 @@ describe('ChunkUploader', () => {
   })
 
   test('No chunkUploadUrl should fail', () => {
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     expect(() => {
       // eslint-disable-next-line no-unused-vars
       const c = new NEChunkUploader({
@@ -90,7 +92,7 @@ describe('ChunkUploader', () => {
     const chunkProgresses = []
     let aborted = false
     const error = false
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -110,7 +112,7 @@ describe('ChunkUploader', () => {
     }, 100)
 
     await chunkUploader.upload()
-    expect(chunkProgresses.length).not.toBe(20)
+    expect(chunkProgresses.length).not.toBe(22)
     expect(aborted).toBe(true)
     expect(error).toBe(false)
   })
@@ -121,7 +123,7 @@ describe('ChunkUploader', () => {
     let aborted = false
     let error = true
     let retries = 0
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -154,7 +156,7 @@ describe('ChunkUploader', () => {
   })
 
   test('should load basic driver', () => {
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -170,7 +172,7 @@ describe('ChunkUploader', () => {
     const chunkProgresses = []
     let aborted = false
     let error = false
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -194,7 +196,7 @@ describe('ChunkUploader', () => {
     }, 100)
 
     await chunkUploader.upload()
-    expect(chunkProgresses.length).not.toBe(20)
+    expect(chunkProgresses.length).not.toBe(22)
     expect(aborted).toBe(true)
     expect(error).toBe(true)
   })
@@ -202,7 +204,7 @@ describe('ChunkUploader', () => {
   test('should run with appplication/json', async () => {
     fetch.mockResponse(requestSuccess)
     const chunkProgresses = []
-    const file = new Blob([fs.readFileSync('test/hello.txt')])
+    const file = mockData
     const chunkUploader = new NEChunkUploader({
       uploadChunkURL: 'http://localhost',
       file,
@@ -215,7 +217,7 @@ describe('ChunkUploader', () => {
     })
 
     await chunkUploader.upload()
-    expect(chunkProgresses.length).toBe(20)
+    expect(chunkProgresses.length).toBe(22)
     const totalChunkSize = chunkProgresses.reduce((a, c) => {
       if (c.chunksUploaded === 0) {
         return a
