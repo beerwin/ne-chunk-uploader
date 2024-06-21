@@ -1,7 +1,6 @@
 import { describe, test, expect } from '@jest/globals'
 
 import NEChunkUploader from '../src/chunk-uploader'
-import fs from 'fs'
 import { Blob } from 'buffer'
 
 import fetchMock from 'jest-fetch-mock'
