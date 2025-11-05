@@ -1,6 +1,6 @@
 {
   "name": "ne-chunk-uploader",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Yet another chunk uploader library",
   "repository": {
     "type": "git",
